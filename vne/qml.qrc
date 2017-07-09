@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>title.jpg</file>
+        <file>TitleButton.qml</file>
+        <file>DroidSansFallbackFull.ttf</file>
+        <file>PageTitle.qml</file>
+        <file>PageOptions.qml</file>
+    </qresource>
+</RCC>
