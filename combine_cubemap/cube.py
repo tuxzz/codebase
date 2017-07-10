@@ -14,11 +14,10 @@ assert(digit > 0 and digit < 10)
 fStr = "%s_%0" + str(digit) + "d.png"
 
 orderList = (
-    (None, "ZENITH", None, None),
-    ("WEST", "NORTH", "EAST", "SOUTH"),
-    (None, "NADIR", None, None),
+    ("NADIR", "ZENITH", "SOUTH"),
+    ("WEST", "NORTH", "EAST"),
 )
-orderListShapeW, orderListShapeH = 4, 3
+orderListShapeW, orderListShapeH = 3, 2
 
 if(bitDepth == 16):
     dtype = np.uint16
