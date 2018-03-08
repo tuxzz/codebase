@@ -30,9 +30,19 @@ def loadPng(path):
     reader = png.Reader(path)
     pngData = reader.read()
     w, h = pngData[0], pngData[1]
-    pixelData = np.vstack(map(dtype, pngData[2]))
+    bitdepth = pngData[3]["bitdepth"]
     nPlane = pngData[3]["planes"]
-    return pixelData.reshape(pixelData.shape[0], pixelData.shape[1] // nPlane, nPlane), pngData[3]
+    if(bitdepth == 8):
+        dtype = np.uint8
+    elif(bitdepth == 16):
+        dtype = np.uint16
+    else:
+        raise TypeError("Unsupported input bitdepth")
+    pixelData = np.vstack(map(dtype, pngData[2]))
+    if(nPlane >= 2):
+        return pixelData.reshape(pixelData.shape[0], pixelData.shape[1] // nPlane, nPlane), pngData[3]
+    else:
+        return pixelData.reshape(pixelData.shape[0], pixelData.shape[1] // nPlane), pngData[3]
 
 def savePng(data, info, path):
     d = data.reshape(data.shape[0], data.shape[1] * info["planes"])
@@ -44,11 +54,11 @@ def savePng(data, info, path):
 out = np.zeros((h * orderListShapeH, w * orderListShapeW, nPlane), dtype = dtype)
 print("Output shape = %s" % str(out.shape))
 outInfo = {
-    'greyscale': True if(nPlane == 1) else False, 
-    'alpha': False, 
-    'planes': nPlane, 
-    'bitdepth': bitDepth, 
-    'interlace': 0, 
+    'greyscale': True if(nPlane == 1) else False,
+    'alpha': False,
+    'planes': nPlane,
+    'bitdepth': bitDepth,
+    'interlace': 0,
     'size': (orderListShapeW * w, orderListShapeH * h)
 }
 for iFrame in range(1, nFrame + 1):
